@@ -31,7 +31,12 @@ app.get("/", (req, res) => {
 
 app.use("/api/notes", notesRouter);
 
-app.listen(PORT, async () => {
-  await initDB();
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, async () => {
+    await initDB();
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  });
+}
+
+// Export untuk Vercel Serverless
+module.exports = app;
